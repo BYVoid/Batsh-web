@@ -1,0 +1,47 @@
+!!! 5
+html(lang='en')
+  head
+    title Batsh
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    // Latest compiled and minified CSS 
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css')
+    // Optional theme 
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css')
+    // Theme Override
+    link(rel='stylesheet', href='/css/style.css')
+  body
+    nav.navbar.navbar-default(role='navigation')
+      // Brand and toggle get grouped for better mobile display 
+      .navbar-header
+        button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-ex1-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href='#') Batsh Compiler
+      //Collect the nav links, forms, and other content for toggling 
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        ul.nav.navbar-nav
+          li
+            button#compile.btn.btn-success(href='#') Compile!
+        ul.nav.navbar-nav.navbar-right
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              span#language-choice-text(data-language='0') Bash
+              b.caret
+            ul.dropdown-menu
+              li#bash.active
+                a(href='#') Bash
+              li#windows-batch
+                a(href='#') Windows Batch
+          li
+            a(href='#') About this project
+    #editor1
+    #editor2
+    // jQuery (necessary for Bootstrap's JavaScript plugins) 
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+    // Latest compiled and minified JavaScript 
+    script(src='//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js')
+    // ACE Editor
+    script(src='//cdnjs.cloudflare.com/ajax/libs/ace/1.1.01/ace.js')
+    script(src='/js/compiler.js', charset='utf-8')

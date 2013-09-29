@@ -1,0 +1,17 @@
+#editor1 { 
+    position: absolute;
+	left:0;
+	right:50%;
+	top:52px;
+	bottom:0;
+}
+#editor2 {
+	position: absolute;
+	left:50%;
+	right:0;
+	top:52px;
+	bottom:0;
+}
+.nav #compile {
+	margin-top: 8px;
+}
