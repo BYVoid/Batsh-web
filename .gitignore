@@ -1,1 +1,4 @@
 node_modules/
+backend/_build
+backend/*.byte
+backend/*.native
