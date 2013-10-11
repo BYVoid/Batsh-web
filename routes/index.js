@@ -70,3 +70,19 @@ exports.compile = function(req, res) {
     });
   });
 };
+
+exports.example = function(req, res) {
+  var id = req.query.id;
+  if (id.indexOf('/') != -1) {
+    res.send(403, 'Forbidden');
+  } else {
+    var filename = path.join(__dirname, '..', 'examples', id + '.js');
+    fs.readFile(filename, function(err, data) {
+      if (err) {
+        res.send(403, 'Forbidden');
+      } else {
+        res.send(data);
+      }
+    });
+  }
+};

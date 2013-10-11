@@ -57,4 +57,23 @@ $(function() {
     $("#bash").removeClass("active");
     editor2.getSession().setMode("ace/mode/batchfile");
   });
+
+  var fetchExample = function(id) {
+    $.ajax({
+      type: "GET",
+      url: "/example",
+      data: {id: id},
+      success: function(data) {
+        editor1.setValue(data);
+        editor1.navigateFileStart();
+      }
+    });
+  }
+
+  $("#example-expression").click(fetchExample.bind(this, 'expression'));
+  $("#example-command").click(fetchExample.bind(this, 'command'));
+  $("#example-condition").click(fetchExample.bind(this, 'condition'));
+  $("#example-loop").click(fetchExample.bind(this, 'loop'));
+  $("#example-function").click(fetchExample.bind(this, 'function'));
+  $("#example-recursion").click(fetchExample.bind(this, 'recursion'));
 });

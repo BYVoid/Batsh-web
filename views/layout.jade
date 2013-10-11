@@ -22,18 +22,35 @@ html(lang='en')
       //Collect the nav links, forms, and other content for toggling 
       .collapse.navbar-collapse.navbar-ex1-collapse
         ul.nav.navbar-nav
-          li
-            button#compile.btn.btn-success(href='#') Compile!
+          li.dropdown
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              span Examples
+              b.caret
+            ul.dropdown-menu
+              li#example-expression
+                a(href='#') Expression
+              li#example-command
+                a(href='#') Command
+              li#example-condition
+                a(href='#') Condition
+              li#example-loop
+                a(href='#') Loop
+              li#example-function
+                a(href='#') Function
+              li#example-recursion
+                a(href='#') Recursion
         ul.nav.navbar-nav.navbar-right
           li.dropdown
             a.dropdown-toggle(href='#', data-toggle='dropdown')
               span#language-choice-text(data-language='0') Bash
               b.caret
             ul.dropdown-menu
-              li#bash.active
+              li.active#bash
                 a(href='#') Bash
               li#windows-batch
                 a(href='#') Windows Batch
+          li
+            button#compile.btn.btn-success(href='#') Compile!
           li
             a(href='https://github.com/BYVoid/Batsh', target="_blank") About Batsh
     #editor1
