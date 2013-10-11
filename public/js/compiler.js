@@ -33,11 +33,10 @@ $(function() {
         console.log(data);
         if (data.err) {
           editor2.setValue(data.err);
-          editor2.navigateFileStart();
         } else {
           editor2.setValue(data.code);
-          editor2.navigateFileStart();
         }
+        editor2.navigateFileStart();
       }
     });
   });

@@ -1,55 +1,72 @@
 var fs = require('fs');
 var child_process = require('child_process');
-var temp = require('temp');
-var pathToBatsh = '/usr/local/bin/batsh';
+var net = require('net');
+var path = require('path');
+
+var batsh_srv_running = false;
+var batshSrvPort = 8765;
+var ensureBatshSrv = function(callback) {
+  if (batsh_srv_running) {
+    callback();
+  } else {
+    // FIXME not working
+    callback();
+    return;
+
+    var callbackCalled = false;
+    var cmd = path.join(__dirname, '..', 'backend', 'batsh_srv.native');
+    console.log(cmd);
+    var batshSrv = child_process.spawn(cmd);
+    batshSrv.on('close', function(code) {
+      batsh_srv_running = false;
+    });
+    batshSrv.stdout.setEncoding('utf8');
+    batshSrv.stdout.on('data', function(data) {
+      console.log(data);
+      batsh_srv_running = true;
+      if (!callbackCalled) {
+        callbackCalled = true;
+        callback();
+      }
+    });
+    batshSrv.stderr.setEncoding('utf8');
+    batshSrv.stderr.on('data', function(data) {
+      console.error(data);
+      if (!callbackCalled) {
+        callbackCalled = true;
+        callback();
+      }
+    });
+  }
+};
+ensureBatshSrv(function(){});
 
 exports.index = function(req, res) {
   res.render('index');
 };
 
 exports.compile = function(req, res) {
-  var target = req.body.target;
-  var code = req.body.code;
-
   var reportError = function(err) {
     res.json({
       err: err
     });
   };
-
-  temp.open('batsh', function(err, info) {
-    if (err) {
-      reportError(err);
-      return;
-    }
-    fs.write(info.fd, code);
-    fs.close(info.fd, function(err) {
-      if (err) {
-        reportError(err);
-        return;
-      }
-      var srcfile = info.path;
-      var subCommand;
-      if (target === 'bash') {
-        subCommand = 'bash';
-      } else if (target === 'winbat') {
-        subCommand = 'bat';
-      } else {
-        // Error
-      }
-      var cmd = pathToBatsh + ' ' + subCommand + ' "' + srcfile + '"';
-      child_process.exec(cmd, function(err, stdout, stderr) {
-        if (err) {
-          if (stderr.indexOf(srcfile) !== -1) {
-            stderr = stderr.slice(srcfile.length + 1);
-          }
-          reportError(stderr);
-        } else {
-          res.json({
-            code: stdout
-          });
-        }
-      });
-    })
+  ensureBatshSrv(function(err) {
+    if (err) return reportError(err);
+    var request = JSON.stringify({
+      target: req.body.target,
+      code: req.body.code,
+    });
+    var client = new net.Socket();
+    client.connect(batshSrvPort, function() {
+      client.end(request);
+    });
+    client.on('error', function(err) {
+      reportError(err.toString());
+    });
+    client.on('data', function(data) {
+      client.destroy();
+      res.json(JSON.parse(data.toString()));
+    });
   });
 };
