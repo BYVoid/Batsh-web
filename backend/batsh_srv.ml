@@ -83,7 +83,7 @@ let handle_request (reader : Reader.t) (writer : Writer.t) =
   >>= fun () ->
   return ()
 
-let run_server ~port ~daemon =
+let run_server ~port =
   ignore (
     Tcp.Server.create
       ~on_handler_error:(`Call (fun _addr e ->
@@ -102,10 +102,10 @@ let () =
     ~summary:"Server for Batsh"
     Command.Spec.(
       empty
-      +> flag "-daemon" no_arg
-          ~doc:" Run server as a daemon"
+      +> flag "-port" (optional_with_default 8765 int)
+          ~doc:" Port to listen on (default 8765)"
     )
-    (fun daemon () ->
-       run_server ~port:8765 ~daemon
+    (fun port () ->
+       run_server ~port
     )
   |> Command.run
