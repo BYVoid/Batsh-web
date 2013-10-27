@@ -1,10 +1,29 @@
-function fibonacci(num) {
-  if (num == 0) {
-    return 0;
-  } else if (num == 1) {
-    return 1;
-  } else {
-    return fibonacci(num - 2) + fibonacci(num - 1);
-  }
+// Function call
+function func1(p1, p2) {
+  println(p1, p2);
 }
-fibonacci(5);
+func1("Hello", "World");
+
+// Global and local variables
+v1 = "Global V1";
+v2 = "Global V2";
+v3 = "Global V3";
+function func2(p) {
+  v1 = "Local " ++ p;
+  println(v1);
+  println(v2);
+  global v3;
+  v3 = "V3 Modified.";
+}
+func2("Var");
+println(v1);
+println(v3);
+
+// Return value
+function func3(num) {
+  return num + 41;
+}
+func3(4);
+println();
+ret = func3(1);
+println("Returned:", ret);
