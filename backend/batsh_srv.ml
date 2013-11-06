@@ -44,13 +44,13 @@ let read_all (reader : Reader.t) : string Deferred.t =
 let compile (req : request) : string =
   match req.target with
   | "bash" ->
-    let batsh = Batsh.Parser.create_from_string req.code in
-    let bash = Batsh.Bash.compile batsh in
-    Batsh.Bash.print bash
+    let batsh = Parser.create_from_string req.code in
+    let bash = Bash.compile batsh in
+    Bash.print bash
   | "winbat" ->
-    let batsh = Batsh.Parser.create_from_string req.code in
-    let batch = Batsh.Winbat.compile batsh in
-    Batsh.Winbat.print batch
+    let batsh = Parser.create_from_string req.code in
+    let batch = Winbat.compile batsh in
+    Winbat.print batch
   | _ -> failwith ("Unknown target: " ^ req.target)
 
 let make_response (code : string) =
@@ -75,7 +75,7 @@ let handle_request (reader : Reader.t) (writer : Writer.t) =
       let code = compile req in
       make_response code
     with
-    | Failure msg | Batsh.Parser.ParseError msg | Yojson.Json_error msg ->
+    | Failure msg | Parser.ParseError msg | Yojson.Json_error msg ->
       make_error_response msg
   in
   Writer.write writer response;
