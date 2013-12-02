@@ -40,17 +40,10 @@ html(lang='en')
               li#example-recursion
                 a(href='#') Recursion
         ul.nav.navbar-nav.navbar-right
-          li.dropdown
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              span#language-choice-text(data-language='0') Bash
-              b.caret
-            ul.dropdown-menu
-              li.active#bash
-                a(href='#') Bash
-              li#windows-batch
-                a(href='#') Windows Batch
           li
-            button#compile.btn.btn-success(href='#') Compile!
+            button#compile-bash.btn.btn-success(href='#') Compile to Bash
+          li
+            button#compile-winbat.btn.btn-success(href='#') Compile to Windows Batch
           li
             a(href='https://github.com/BYVoid/Batsh', target="_blank") About Batsh
     #editor1

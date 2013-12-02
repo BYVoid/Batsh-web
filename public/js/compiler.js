@@ -13,15 +13,8 @@ $(function() {
   editor2.setReadOnly(true);
   editor2.setHighlightActiveLine(false);
 
-  $("#compile").click(function() {
+  var doCompile = function(target) {
     var code = editor1.getValue();
-    var index = $("#language-choice-text").attr("data-language");
-    var target; 
-    if (index == 0) {
-      target = "bash";
-    } else {
-      target = "winbat";
-    }
     $.ajax({
       type: "POST",
       url: "/compile",
@@ -39,23 +32,16 @@ $(function() {
         editor2.navigateFileStart();
       }
     });
-  });
+  }
 
-  //Right nav bar dropdown
-  $("#bash").click(function() {
-    $("#language-choice-text").text("Bash");
-    $("#language-choice-text").attr("data-language", "0");
-    $(this).addClass("active");
-    $("#windows-batch").removeClass("active");
+  $("#compile-bash").click(function() {
     editor2.getSession().setMode("ace/mode/sh");
+    doCompile('bash');
   });
 
-  $("#windows-batch").click(function() {
-    $("#language-choice-text").text("Windows Batch");
-    $("#language-choice-text").attr("data-language", "1");
-    $(this).addClass("active");
-    $("#bash").removeClass("active");
+  $("#compile-winbat").click(function() {
     editor2.getSession().setMode("ace/mode/batchfile");
+    doCompile('winbat');
   });
 
   var fetchExample = function(id) {
