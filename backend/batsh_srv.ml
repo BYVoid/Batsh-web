@@ -76,7 +76,9 @@ let handle_request (reader : Reader.t) (writer : Writer.t) =
       let code = compile req in
       make_response code
     with
-    | Failure msg | Parser.ParseError msg | Yojson.Json_error msg ->
+    | Failure msg | Parser.ParseError msg | Parser.SemanticError msg
+    | Errors.SemanticError (msg, _)
+    | Yojson.Json_error msg ->
       make_error_response msg
   in
   Writer.write writer response;
