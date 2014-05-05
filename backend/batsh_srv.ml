@@ -77,9 +77,10 @@ let handle_request (reader : Reader.t) (writer : Writer.t) =
       make_response code
     with
     | Failure msg | Parser.ParseError msg | Parser.SemanticError msg
-    | Errors.SemanticError (msg, _)
     | Yojson.Json_error msg ->
       make_error_response msg
+    | Errors.SemanticError (msg, context) ->
+      make_error_response (msg ^ "\n" ^ context)
   in
   Writer.write writer response;
   Writer.flushed writer

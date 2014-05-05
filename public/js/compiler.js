@@ -62,4 +62,5 @@ $(function() {
   $("#example-loop").click(fetchExample.bind(this, 'loop'));
   $("#example-function").click(fetchExample.bind(this, 'function'));
   $("#example-recursion").click(fetchExample.bind(this, 'recursion'));
+  $("#example-fs").click(fetchExample.bind(this, 'fs'));
 });
