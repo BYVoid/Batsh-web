@@ -3,7 +3,7 @@ all: batsh_srv.native
 debug: batsh_srv.byte
 
 batsh_srv.%: batsh_srv.ml
-	corebuild -pkg async,yojson,batsh $@
+	corebuild -pkgs async,yojson,batsh-lib $@
 
 test: batsh_srv.byte
 	./batsh_srv.byte
