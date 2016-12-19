@@ -5,6 +5,13 @@ var path = require('path');
 
 var batsh_srv_running = false;
 var batshSrvPort = 8765;
+var batshSrvHost = 'localhost';
+
+if (process.env.BATSH_BACKEND_PORT_8765_TCP_ADDR)
+  batshSrvHost = process.env.BATSH_BACKEND_PORT_8765_TCP_ADDR
+if (process.env.BATSH_BACKEND_PORT_8765_TCP_PORT)
+  batshSrvPort = process.env.BATSH_BACKEND_PORT_8765_TCP_PORT
+
 var ensureBatshSrv = function(callback) {
   if (batsh_srv_running) {
     callback();
@@ -58,7 +65,8 @@ exports.compile = function(req, res) {
       code: req.body.code,
     });
     var client = new net.Socket();
-    client.connect(batshSrvPort, function() {
+    var opts = {port: batshSrvPort, host: batshSrvHost};
+    client.connect(opts, function() {
       client.end(request);
     });
     client.on('error', function(err) {
